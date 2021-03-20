@@ -1,0 +1,37 @@
+---
+# vars file for vrrp
+vrrp_instance: signingpro
+  ip: # IPv4 no mask
+  dev: # enp0s3
+  label: # enp0s3:vip
+  vmac: # not sure how much this matters here, we can make it up
+  id: 1
+  pass: # ansible-vault:pro a string here
+  interface: "{{ inventory_hostname.vrrp_interface }}"
+  state: "{{ inventory_hostname.vrrp_state }}"
+  priority: "{{ inventory_hostname.vrrp_priority }}"
+  smtp_alerts: 1 # boolean, 1 = enabled, 0 = disabled
+  smtp_server: # whichever smtp server this net can reach
+  smtp_port: 25
+  notification_email:
+  notification_email_from:
+vrrp_instance: signingitg
+  ip: # IPv4 no mask
+  dev: # enp0s3
+  label: # enp0s3:vip
+  vmac: # not sure how much this matters here, we can make it up
+  id: 2
+  pass: # ansible-vault:itg a string here
+  interface: "{{ inventory_hostname.vrrp_interface }}"
+  state: "{{ inventory_hostname.state }}"
+  priority: "{{ inventory_hostname.priority }}"
+vrrp_instance: signingdev
+  ip: # IPv4 no mask
+  dev: # enp0s3
+  label: # enp0s3:vip
+  vmac: # not sure how much this matters here, we can make it up
+  id: 3
+  pass: # ansible-vault:dev a string here
+  interface: "{{ inventory_hostname.vrrp_interface }}"
+  state: "{{ inventory_hostname.state }}"
+  priority: "{{ inventory_hostname.priority }}"
