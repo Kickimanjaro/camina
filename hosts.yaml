@@ -3,11 +3,11 @@ all:
   children:
     lbs:
       hosts:
-        lb1:
+        lb1.lab.ansibuilding.systems:
           vrrp_state: MASTER
           vrrp_priority: 100
           vrrp_interface: ens160
-        lb2:
+        lb2.lab.ansibuilding.systems:
           vrrp_state: BACKUP
           vrrp_priority: 50
           vrrp_interface: ens160

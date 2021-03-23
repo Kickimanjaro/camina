@@ -1,0 +1,36 @@
+global_defs {
+  notification_email {
+    {{ vrrp_instance.notification_email }}
+  }
+  notification_email_from {{ vrrp_instance.notification_email_from }}
+  smtp_server {{ vrrp_instance.smtp_server }} {{ vrrp_instance.smtp_port }}
+  smtp_connect_timeout 30
+  smtp_alert {{ vrrp_instance.smtp_alerts }}
+  checker_log_all_failures 1
+  vrrp_check_unicast_src
+}
+vrrp_instance {{ vrrp_instance }} {
+    state {{ vrrp_instance.state }}
+    interface {{ vrrp_instance.interface }}
+    use_vmac {{ vrrp_instance.vmac }}
+    unicast_src_ip {{ inventory_hostname.ipv4 }}
+    track_src_ip
+    unicast_peer {
+        {% for host in groups['loadbalancers'] %}
+           {{ hostvars[host]['ansible_eth0']['ipv4']['address']|difference([inventory_hostname]) }}
+        {% endfor %}
+    }
+    virtual_router_id {{ vrrp_id }}
+    priority {{ vrrp_instance.priority }}
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass {{ vrrp_instance.pass }} # 8 character secret
+    }
+    virtual_ipaddress {
+        192.168.1.140 dev enp0s3 label enp0s3:vip
+        {{ vrrp_instance.ip }} dev {{ vrrp_instance.dev }} label {{ vrrp_instance.label }}
+    }
+    promote_secondaries
+    smtp_alert 1
+}
