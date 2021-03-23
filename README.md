@@ -52,3 +52,13 @@ https://www.linode.com/docs/guides/how-to-use-haproxy-for-load-balancing/
 how others have done this:
 https://geek-cookbook.funkypenguin.co.nz/ha-docker-swarm/keepalived/
 https://akshayuppal90.medium.com/setting-up-a-ha-cluster-using-docker-swarm-and-keepalived-f158aeba2fe9
+
+```
+{{ groups['loadbalancers'] | map('extract', hostvars, 'ansible_default_ipv4.address') | list }}
+```
+
+```
+      {% for host in groups['loadbalancers'] %}
+        {{ hostvars[host]['ansible_default_ipv4']['address'] }}
+      {% endfor %}
+```

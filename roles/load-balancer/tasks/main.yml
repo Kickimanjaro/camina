@@ -1,0 +1,22 @@
+---
+# tasks file for vrrp
+- name: sysctl config
+  lineinfile:
+    path: /etc/sysctl.conf
+    line: net.ipv4.ip_nonlocal_bind=1
+  register: sysctl_conf
+- name: restart sysctl if conf changed
+  service:
+    name: sysctl
+    state: restarted
+  when: sysctl_conf.changed
+- name: install keepalived
+  package:
+    name: keepalived
+    state: present
+- name: configure keepalived
+  template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+
+...

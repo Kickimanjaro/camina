@@ -1,0 +1,19 @@
+---
+# vars file for vrrp
+vrrp_instance: # signingpoc
+  name: signingpoc
+  ip: 172.18.12.10 # IPv4 no mask
+  dev: ens160 # enp0s3
+  label: ens160:vip # enp0s3:vip
+  vmac: 00-00-5E-00-01-01 # not sure how much this matters here, we can make it up
+  id: 1
+  pass: password # ansible-vault a string here
+  interface: "{{ vrrp_interface }}"
+  state: "{{ vrrp_state }}"
+  priority: "{{ vrrp_priority }}"
+  smtp_alerts: 0 # boolean, 1 = enabled, 0 = disabled
+  smtp_server: smtp1.hpe.com # whichever smtp server this net can reach
+  smtp_port: 25
+  notification_email: ovollmer@hpe.com
+  notification_email_from: ovollmer@hpe.com
+...

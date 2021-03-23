@@ -1,18 +1,32 @@
 ---
 all:
-  hosts:
-    loadbalancers:
+  children:
+    lbs:
       hosts:
-        node1:
+        lb1:
           vrrp_state: MASTER
           vrrp_priority: 100
-          vrrp_interface: "{{ ansible_eth0 }}"
-        node2:
+          vrrp_interface: ens160
+        lb2:
           vrrp_state: BACKUP
           vrrp_priority: 50
-          vrrp_interface: "{{ ansible_eth0 }}"
-        node3:
+          vrrp_interface: ens160
+      vars:
+        remote_user: vollmeros
+    loadbalancers:
+      hosts:
+        flb1poc.sde.rdlabs.hpecorp.net:
+          vrrp_state: MASTER
+          vrrp_priority: 100
+          vrrp_interface: ens160 #"{{ ansible_eth0 }}"
+        flb2poc.sde.rdlabs.hpecorp.net:
           vrrp_state: BACKUP
           vrrp_priority: 50
-          vrrp_interface: "{{ ansible_eth0 }}"
+          vrrp_interface: ens160 #"{{ ansible_eth0 }}"
+        #flb3poc.sde.rdlabs.hpecorp.net:
+          #vrrp_state: BACKUP
+          #vrrp_priority: 50
+          #vrrp_interface: "{{ ansible_eth0 }}"
+      vars:
+        remote_user: vollmero
 ...
